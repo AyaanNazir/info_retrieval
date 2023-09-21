@@ -55,6 +55,7 @@ public class InvertedProxIndex extends InvertedIndex {
       // Create a document vector for this document
       // System.out.print(doc.file.getName() + ",");
       HashMapVector vector = doc.hashMapVector();
+      // Inserts HashMapVector into the allPostions hashmap
       allPositons.put(doc.file.getName(), vector);
       indexDocument(doc, vector);
     }
@@ -125,7 +126,7 @@ public class InvertedProxIndex extends InvertedIndex {
                   }
                 }
               } else {
-                // Adds a penalty to calculate 1.0 when averaged
+                // Adds the default value to calculate 1.0 when averaged
                 proximity += 1000;
                 count++;
               }
