@@ -50,7 +50,6 @@ public class InvertedProxIndex extends InvertedIndex {
     DocumentIterator docIter = new DocumentIterator(dirFile, docType, stem);
     System.out.println("Indexing documents in " + dirFile);
     // Loop, processing each of the documents
-
     while (docIter.hasMoreDocuments()) {
       FileDocument doc = docIter.nextDocument();
       // Create a document vector for this document
@@ -100,41 +99,67 @@ public class InvertedProxIndex extends InvertedIndex {
       double score = entry.getValue().value;
       retrievals[retrievalCount++] = (Retrieval) getRetrieval(queryLength, docRef, score);
     }
+    // Iterates every document to set proximity values.
     for (Retrieval ret : retrievals) {
-      double proximity = 0;
-      int count = 0;
-      FileDocument doc = docType == 0 ? new TextFileDocument(ret.docRef.file, true) : new HTMLFileDocument(ret.docRef.file, true);
-      for (Map.Entry<String, Weight> entry1 : vector.entrySet()) {
-        for (Map.Entry<String, Weight> entry2 : vector.entrySet()) {
-          String word1 = entry1.getKey();
-          // System.out.println(allPositons);
-          // System.out.println(allPositons.get(doc.file.getName()));
-          // System.out.println(allPositons.get(doc.file.getName()).positions);
-          // System.out.println(allPositons.get(doc.file.getName()).positions.get(word1));
-          List<Integer> positions1 = allPositons.get(doc.file.getName()).positions.get(word1);
-          String word2 = entry2.getKey();
-          List<Integer> positions2 = allPositons.get(doc.file.getName()).positions.get(word2);
-          if (!word1.equals(word2)) {
-            if (positions1 != null && positions2 != null) {
-              for (int i = 0; i < positions1.size(); i++) {
-                for (int j = 0; j < positions2.size(); j++) {
-                  count++;
-                  proximity += Math.abs(positions1.get(i) - positions2.get(j));
+        double proximity = 0;
+        int count = 0;
+        FileDocument doc = docType == 0 ? new TextFileDocument(ret.docRef.file, true) 
+                                      : new HTMLFileDocument(ret.docRef.file, true);
+        // Checks proximity between every word in query.
+        for (Map.Entry<String, Weight> entry1 : vector.entrySet()) {
+          for (Map.Entry<String, Weight> entry2 : vector.entrySet()) {
+            String word1 = entry1.getKey();
+            List<Integer> positions1 = allPositons.get(doc.file.getName()).positions.get(word1);
+            String word2 = entry2.getKey();
+            List<Integer> positions2 = allPositons.get(doc.file.getName()).positions.get(word2);
+            if (!word1.equals(word2)) {
+              if (positions1 != null && positions2 != null) {
+                // Calculates distance for every occurance of two selected words.
+                for (Integer x : positions1) {
+                  // Finds position of the most adjacent second word and measures from there.
+                  int i = bSearch(positions2, x);
+                  for (int j = i; j < positions2.size(); j++) {
+                    count++;
+                    // Makes sure distance isn't over 1000.
+                    proximity += Math.min(1000, Math.abs(x - positions2.get(j)));
+                  }
                 }
+              } else {
+                // Adds a penalty to calculate 1.0 when averaged
+                proximity += 1000;
+                count++;
               }
-            } else {
-              proximity += 1000;
-              count++;
             }
           }
         }
-      }
-      ret.prox = count == 0 ? 0 : proximity / count / 1000;
+        ret.prox = proximity / count / 1000;
     }
     // Sort the retrievals to produce a final ranked list using the
     // Comparator for retrievals that produces a best to worst ordering.
     Arrays.sort(retrievals);
     return retrievals;
+  }
+
+  /**
+   * Binary Search implementation to find closest index to adjacent word.
+   * @param list array being searched
+   * @param val item being found
+   * @return position of closest index
+   */
+  private int bSearch(List<Integer> list, int val) {
+    int left = 0;
+    int right = list.size() - 1;
+    while (left <= right) {
+      int mid = (right + left) / 2;
+      if (list.get(mid) == val) {
+          return mid;
+      } else if (list.get(mid) < val) {
+          left = mid + 1;
+      } else {
+          right = mid - 1;
+      }
+    }
+    return left;
   }
 
   /**
