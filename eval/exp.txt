@@ -11244,4 +11244,136 @@ Returned 1050 documents.
 12 truly relevant documents.
    1 is relevant; Recall = 11.111%; Precision =  100.0%
    2 is relevant; Recall = 22.222%; Precision =  100.0%
-  32 is relevant; Recall
+  32 is relevant; Recall = 33.333%; Precision =  9.375%
+  47 is relevant; Recall = 44.444%; Precision =  8.511%
+  52 is relevant; Recall = 55.556%; Precision =  9.615%
+  58 is relevant; Recall = 66.667%; Precision = 10.345%
+ 124 is relevant; Recall = 77.778%; Precision =  5.645%
+ 188 is relevant; Recall = 88.889%; Precision =  4.255%
+1211 is relevant; Recall =  100.0%; Precision =  0.743%
+
+Computing NDCG for this query
+Ranked Retrieval Gains:[0.875, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+DCGs:[0.875, 1.125, 1.125, 1.125, 1.125, 1.125, 1.125, 1.125, 1.125, 1.125]
+Ideal Retrieval Gains:[0.875, 0.25, 0.25, 0.25, 0.125, 0.125, 0.125, 0.125, 0.125, 0.0]
+Ideal DCGs:[0.875, 1.125, 1.2827324383928644, 1.4077324383928644, 1.4615670081520387, 1.5099236090563564, 1.5544495074448592, 1.596116174111526, 1.635549283709742, 1.635549283709742]
+NDCGs:[1.0, 1.0, 0.8770340301127121, 0.7991575453673245, 0.769721807980885, 0.7450708057363785, 0.7237288793311976, 0.704835912477504, 0.6878423115739334, 0.6878423115739334]
+
+Query 97: Is oxygen transport by red blood cells abnormal in CF patients?
+Returned 967 documents.
+11 truly relevant documents.
+   1 is relevant; Recall = 11.111%; Precision =  100.0%
+   4 is relevant; Recall = 22.222%; Precision =   50.0%
+  11 is relevant; Recall = 33.333%; Precision = 27.273%
+  21 is relevant; Recall = 44.444%; Precision = 19.048%
+  44 is relevant; Recall = 55.556%; Precision = 11.364%
+  46 is relevant; Recall = 66.667%; Precision = 13.043%
+ 418 is relevant; Recall = 77.778%; Precision =  1.675%
+ 493 is relevant; Recall = 88.889%; Precision =  1.623%
+1205 is relevant; Recall =  100.0%; Precision =  0.747%
+
+Computing NDCG for this query
+Ranked Retrieval Gains:[1.0, 0.0, 0.0, 0.125, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+DCGs:[1.0, 1.0, 1.0, 1.0625, 1.0625, 1.0625, 1.0625, 1.0625, 1.0625, 1.0625]
+Ideal Retrieval Gains:[1.0, 0.25, 0.25, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.0]
+Ideal DCGs:[1.0, 1.25, 1.4077324383928644, 1.4702324383928644, 1.5240670081520387, 1.5724236090563564, 1.6169495074448592, 1.658616174111526, 1.698049283709742, 1.698049283709742]
+NDCGs:[1.0, 0.8, 0.7103622625487329, 0.7226748453199934, 0.6971478250738478, 0.6757085011192551, 0.6571015329223155, 0.6405942595906201, 0.6257179989963234, 0.6257179989963234]
+
+Query 98: What are the effects of CF on the development and/or function of the brain and central nervous system?
+Returned 617 documents.
+15 truly relevant documents.
+   1 is relevant; Recall =  8.333%; Precision =  100.0%
+   2 is relevant; Recall = 16.667%; Precision =  100.0%
+   8 is relevant; Recall =   25.0%; Precision =   37.5%
+  17 is relevant; Recall = 33.333%; Precision = 23.529%
+ 157 is relevant; Recall = 41.667%; Precision =  3.185%
+ 341 is relevant; Recall =   50.0%; Precision =   1.76%
+ 347 is relevant; Recall = 58.333%; Precision =  2.017%
+ 529 is relevant; Recall = 66.667%; Precision =  1.512%
+ 568 is relevant; Recall =   75.0%; Precision =  1.585%
+ 633 is relevant; Recall = 83.333%; Precision =   1.58%
+ 787 is relevant; Recall = 91.667%; Precision =  1.398%
+ 865 is relevant; Recall =  100.0%; Precision =  1.387%
+
+Computing NDCG for this query
+Ranked Retrieval Gains:[0.875, 0.625, 0.0, 0.0, 0.0, 0.0, 0.0, 0.875, 0.0, 0.0]
+DCGs:[0.875, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.7916666666666667, 1.7916666666666667, 1.7916666666666667]
+Ideal Retrieval Gains:[1.0, 0.875, 0.875, 0.625, 0.5, 0.375, 0.25, 0.25, 0.125, 0.125]
+Ideal DCGs:[1.0, 1.875, 2.427063534375025, 2.739563534375025, 2.9549018134117215, 3.099971616124675, 3.1890234129016806, 3.272356746235014, 3.31178985583323, 3.349418605291228]
+NDCGs:[0.875, 0.8, 0.6180307926657774, 0.5475324741253698, 0.5076310803938707, 0.48387539814805614, 0.4703634328714933, 0.5475156914746705, 0.5409964836720874, 0.5349187061409075]
+
+Query 99: Are there abnormalities of taste in CF patients?
+Returned 895 documents.
+5 truly relevant documents.
+   1 is relevant; Recall =   50.0%; Precision =  100.0%
+   2 is relevant; Recall =  100.0%; Precision =  100.0%
+
+Computing NDCG for this query
+Ranked Retrieval Gains:[0.625, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+DCGs:[0.625, 0.875, 0.875, 0.875, 0.875, 0.875, 0.875, 0.875, 0.875, 0.875]
+Ideal Retrieval Gains:[0.625, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Ideal DCGs:[0.625, 0.875, 0.875, 0.875, 0.875, 0.875, 0.875, 0.875, 0.875, 0.875]
+NDCGs:[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+Query 100: What is the incidence of and treatment for hypertrophic osteoarthropathy in CF patients?
+Returned 924 documents.
+11 truly relevant documents.
+   3 is relevant; Recall = 14.286%; Precision = 33.333%
+  15 is relevant; Recall = 28.571%; Precision = 13.333%
+  47 is relevant; Recall = 42.857%; Precision =  6.383%
+ 103 is relevant; Recall = 57.143%; Precision =  3.883%
+ 179 is relevant; Recall = 71.429%; Precision =  2.793%
+ 277 is relevant; Recall = 85.714%; Precision =  2.166%
+ 333 is relevant; Recall =  100.0%; Precision =  2.102%
+
+Computing NDCG for this query
+Ranked Retrieval Gains:[0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+DCGs:[0.0, 0.0, 0.15773243839286435, 0.15773243839286435, 0.15773243839286435, 0.15773243839286435, 0.15773243839286435, 0.15773243839286435, 0.15773243839286435, 0.15773243839286435]
+Ideal Retrieval Gains:[0.75, 0.625, 0.25, 0.25, 0.25, 0.25, 0.125, 0.0, 0.0, 0.0]
+Ideal DCGs:[0.75, 1.375, 1.5327324383928644, 1.6577324383928644, 1.7654015779112127, 1.862114779719848, 1.906640678108351, 1.906640678108351, 1.906640678108351, 1.906640678108351]
+NDCGs:[0.0, 0.0, 0.10290931048490992, 0.09514951553085522, 0.08934649224653474, 0.08470607725727569, 0.08272793096460974, 0.08272793096460974, 0.08272793096460974, 0.08272793096460974]
+
+Average Interpolated Precisions:
+[0.6653373235650699, 0.5293301865652721, 0.41204582451411864, 0.3408531023973573, 0.2745755233440863, 0.22080229758872905, 0.18146613821968102, 0.13980264901568745, 0.10993638455061909, 0.07323559785290147, 0.05349521628390762]
+
+Average NDCG results:
+Rank 1: 0.421297619047619
+Rank 2: 0.41406021756021766
+Rank 3: 0.3882819577532672
+Rank 4: 0.3849441137924326
+Rank 5: 0.376908185227173
+Rank 6: 0.3693189176727563
+Rank 7: 0.3678707827226617
+Rank 8: 0.3662612750985172
+Rank 9: 0.36337689536926343
+Rank 10: 0.36181648041482817
+nazir@grus:~$ exit
+Script done, file is ir/eval/exp.txt
+nazir@grus:~$ cd ir
+nazir@grus:~/ir$ git add .
+nazir@grus:~/ir$ git commit -m "experiments[Kal"
+[main 030da95] experimental
+ Committer: Ayaan Nazir <nazir@cs.utexas.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 8 files changed, 11289 insertions(+), 42 deletions(-)
+ create mode 100644 eval/exp.txt
+nazir@grus:~/ir$ git add
+Nothing specified, nothing added.
+[33mhint: Maybe you wanted to say 'git add .'?[m
+[33mhint: Turn this message off by running[m
+[33mhint: "git config advice.addEmptyPathspec false"[m
+nazir@grus:~/ir$ git push
+Enumerating objects: 20, done.
+Counting objects:   5% (1/20)Counting objects:  10% (2/20)Counting objects:  15% (3/20)Counting objects:  20% (4/20)Counting objects:  25% (5/20)Counting objects:  30% (6/20)Counting objects:  35% (7/20)Counting objects:  40% (8/20)Counting objects:  45% (9/20)Counting objects:  50% (10/20)Counting objects:  55% (11/20)Counting objects:  60% (12/20)Counting objects:  65% (13/20)Counting objects:  70% (14/20)Counting objects:  75% (15/20)Counting objects:  80% (16/20)Counting objects:  85% (17/20)Counting objects:  90% (18/20)Counting objects:  95% (19/20)Counting objects: 100% (20/20)Counting objects: 100% (20/20), done.
+Delta compression using up to 8 threads
+Compressing objects:   9% (1/11)Compressing objects:  18% (2/11)Compressing objects:  27% (3/11)Compressing objects:  36% (4/11)Compressing objects:  45% (5/11)Co
