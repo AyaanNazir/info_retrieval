@@ -39,7 +39,7 @@ public class PageRankSpider extends Spider{
     }
 
     for (int i = 0; i < iterations; i++) {
-        System.out.println("Iteration" + i);
+        System.out.println("Iteration " + i);
         graph.resetIterator();
         iter = graph.nextNode();
         while (iter != null) {

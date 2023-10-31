@@ -9,7 +9,7 @@ import ir.webutils.Graph;
 import ir.webutils.LinkExtractor;
 import ir.webutils.Spider;
 
-public class PageRankSiteSpider extends Spider{
+public class PageRankSiteSpider extends PageRankSpider{
 
     /**
    * Returns a list of links to follow from a given page.
