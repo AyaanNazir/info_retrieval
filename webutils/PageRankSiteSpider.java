@@ -22,6 +22,7 @@ public class PageRankSiteSpider extends PageRankSpider{
   protected List<Link> getNewLinks(HTMLPage page) {
     List<Link> pageLinks = new LinkExtractor(page).extractLinks();
     URL pageURL = page.getLink().getURL();
+    // traverses and removes similar links while cleaning URL
     for (int i = 0; i < pageLinks.size(); i++) {
         pageLinks.get(i).cleanURL(pageURL);
         if (!pageURL.getHost().equals(pageLinks.get(i).getURL().getHost())) {

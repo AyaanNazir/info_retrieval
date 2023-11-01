@@ -11,6 +11,7 @@ import ir.webutils.Spider;
 
 public class PageRankSpider extends Spider{
 
+    // create a graph for spider
     Graph graph = new Graph();
 
     /**
@@ -23,40 +24,47 @@ public class PageRankSpider extends Spider{
   public void go(String[] args) {
     processArgs(args);
     doCrawl();
+    // clear the graph
     graph = clear();
     System.out.println("Graph Structure");
     graph.print();
+    // initialize alpha and iterations
     double alpha = .15;
     int iterations = 50;
     HashMap<String, Double> ranks = new HashMap<String, Double>();
     HashMap<String, Double> temp = new HashMap<String, Double>();
     graph.resetIterator();
     Node iter = graph.nextNode();
+    // sets initial value to equal ratio of document
     while (iter != null) {
         ranks.put(iter.page, 1.0 / count);
         temp.put(iter.page, 1.0 / count);
         iter = graph.nextNode();
     }
-
+    // goes through 50 iterations
     for (int i = 0; i < iterations; i++) {
         System.out.println("Iteration " + i);
         graph.resetIterator();
         iter = graph.nextNode();
+        // traverses to put current rank
         while (iter != null) {
             temp.put(iter.page, rankPage(iter, ranks, alpha, count));
             iter = graph.nextNode();
         }
+        // normalizes the page ranks
         double sum = 0;
         for (String x : temp.keySet()) {
             sum += temp.get(x);
             System.out.println("Unnormalized P = " + temp.get(x) + " | " + x);
         }
+        // updates rank based on the iteration
         for (String x : temp.keySet()) {
             temp.put(x, temp.get(x) / sum);
             ranks.put(x, temp.get(x) / sum);
             System.out.println("Normalized P = " + temp.get(x) + " | " + x);
         }
     }
+    //writes page_ranks.txt
     try {
         BufferedWriter write = new BufferedWriter(new FileWriter(new File(saveDir + "/page_ranks.txt")));
         for (String x : ranks.keySet()) {
@@ -67,6 +75,7 @@ public class PageRankSpider extends Spider{
     } catch (IOException e) {
         System.out.println(e);
     }
+    //prints PR
     System.out.println("\nPageRank:");
     for (Node x : graph.nodeArray()) {
         System.out.println("PR(" + x.name + "): " + ranks.get(x.page));
@@ -139,6 +148,7 @@ public class PageRankSpider extends Spider{
       }
       if (count < maxCount) {
         List<Link> newLinks = getNewLinks(currentPage);
+        // clean new URLs
         for (Link x : newLinks) {
             x.cleanURL();
         }
@@ -149,21 +159,29 @@ public class PageRankSpider extends Spider{
     }
   }
 
+  /**
+   * Cleans all non-indexed documents out from the graph.
+   * @return new graph
+   */
   public Graph clear() {
     Graph temp = new Graph();
+    // traverses the graph
     graph.resetIterator();
     Node iter = graph.nextNode();
     while (iter != null) {
         if (iter.indexed) {
+            // deep copies references to a new node.
             Node empty = temp.getNode(iter.name);
             empty.page = iter.page;
             empty.indexed = true;
+            // creates graph based on new node.
             for (Node x : iter.getEdgesOut()) {
                 if (x.indexed && !empty.getEdgesOut().contains(temp.getNode(x.name))) {
                     empty.addEdge(temp.getNode(x.name));;
                 }
             }
         } else {
+            // deletes non-indexed references
             graph.iterator.remove();
         }
         iter = graph.nextNode();
@@ -171,10 +189,20 @@ public class PageRankSpider extends Spider{
     return temp;
   }
 
+  /**
+   * Gives a new rank to the page
+   * @param iter
+   * @param ranks
+   * @param alpha
+   * @param count
+   * @return
+   */
   public double rankPage(Node iter, HashMap<String, Double> ranks, double alpha, int count) {
     double sum = 0;
+    // traverses nodes relating to the give node
     List<Node> nodes = iter.getEdgesIn();
     for (Node x : nodes) {
+        // sums up all the edges
         sum += ranks.get(x.page) / x.getEdgesOut().size();
     }
     return ((1 - alpha) * sum) + (alpha / count);
@@ -188,11 +216,14 @@ public class PageRankSpider extends Spider{
    *             index.
    */
   protected void indexPage(HTMLPage page) {
+    // sets up new page references
     String pageData = "P" + MoreString.padWithZeros(count, (int) Math.floor(MoreMath.log(maxCount, 10)) + 1);
+    // finds node associated to the page
     Node temp = graph.getNode(page.link.getURL().toString());
     temp.page = pageData + ".html";
     temp.indexed = true;
     LinkExtractor iterator = new LinkExtractor(page);
+    // traverses each link and adds edge if its not cyclic
     for (Link x : iterator.extractLinks()) {
         if (!x.getURL().toString().equals(temp.name)) {
             temp.addEdge(graph.getNode(x.getURL().toString()));

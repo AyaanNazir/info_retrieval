@@ -12,12 +12,15 @@ import ir.classifiers.*;
 
 public class PageRankInvertedIndex extends InvertedIndex{
     
+    // bias based on popularity
     double weight;
 
+    // page ranks
     HashMap<String, Double> rank;
 
     public PageRankInvertedIndex(File dirFile, short docType, boolean stem, boolean feedback, double w) {
         super(dirFile, docType, stem, feedback);
+        // initialize new variables
         weight = w;
         rank = new HashMap<String, Double>();
         File page = new File("page_ranks.txt");
@@ -45,7 +48,8 @@ public class PageRankInvertedIndex extends InvertedIndex{
     protected Retrieval getRetrieval(double queryLength, DocumentReference docRef, double score) {
         // Normalize score for the lengths of the two document vectors
         score = score / (queryLength * docRef.length);
-        score += rank.get(docRef.file.getName());
+        // multiply by weight
+        score += rank.get(docRef.file.getName()) * weight;
         // Add a Retrieval for this document to the result array
         return new Retrieval(docRef, score);
     }
@@ -60,36 +64,47 @@ public class PageRankInvertedIndex extends InvertedIndex{
      */
     public static void main(String[] args) {
 
-    // Parse the arguments into a directory name and optional flag
+        // Parse the arguments into a directory name and optional flag
 
-    String dirName = args[args.length - 1];
-    short docType = DocumentIterator.TYPE_TEXT;
-    boolean stem = false, feedback = false;
-    double setWeight = 0;
-    for (int i = 0; i < args.length - 1; i++) {
-        String flag = args[i];
-        if (flag.equals("-weight")) {
-            setWeight = Double.parseDouble(args[++i]);
+        String dirName = args[args.length - 1];
+        short docType = DocumentIterator.TYPE_TEXT;
+        boolean stem = false, feedback = false;
+        double setWeight = 0;
+        for (int i = 0; i < args.length - 1; i++) {
+            String flag = args[i];
+            if (flag.equals("-weight")) {
+                setWeight = Double.parseDouble(args[++i]);
+            }
+            else if (flag.equals("-html"))
+                // Create HTMLFileDocuments to filter HTML tags
+                docType = DocumentIterator.TYPE_HTML;
+            else if (flag.equals("-stem"))
+                // Stem tokens with Porter stemmer
+                stem = true;
+            else if (flag.equals("-feedback"))
+                // Use relevance feedback
+                feedback = true;
+            else {
+                throw new IllegalArgumentException("Unknown flag: "+ flag);
+            }
         }
-        else if (flag.equals("-html"))
-            // Create HTMLFileDocuments to filter HTML tags
-            docType = DocumentIterator.TYPE_HTML;
-        else if (flag.equals("-stem"))
-            // Stem tokens with Porter stemmer
-            stem = true;
-        else if (flag.equals("-feedback"))
-            // Use relevance feedback
-            feedback = true;
-        else {
-            throw new IllegalArgumentException("Unknown flag: "+ flag);
-        }
-    }
 
-    // Create an inverted index for the files in the given directory.
-    PageRankInvertedIndex index = new PageRankInvertedIndex(new File(dirName), docType, stem, feedback, setWeight);
-    // index.print();
-    // Interactively process queries to this index.
-    index.processQueries();
+        // make sure old ranks don't influence new ones.
+        File pages = new File(dirName, "page_ranks.txt");
+        if (pages.renameTo(new File(dirName, "../page_ranks.txt"))) {
+            pages.delete();
+        }
+        // Create an inverted index for the files in the given directory.
+        PageRankInvertedIndex index = new PageRankInvertedIndex(new File(dirName), docType, stem, feedback, setWeight);
+        // index.print();
+        // Interactively process queries to this index.
+        index.processQueries();
+
+        // bring back page_ranks
+        pages = new File("page_ranks.txt");
+        if (pages.renameTo(new File(dirName, "page_ranks.txt"))) {
+            pages.delete();
+        }
     }
 
 }
