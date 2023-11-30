@@ -1,0 +1,15 @@
+set xlabel "Rank"
+set ylabel "NDCG"
+set title "NDCG"
+
+set terminal pngcairo enhanced font 'Verdana,10'
+set output 'all-deep.ndcg.png'
+set size 1.0, 1.0
+
+set style data linespoints
+set key top right
+
+set xrange [1:10]
+set yrange [0:1]
+
+plot 'vsr.ndcg' title "VSR", 'specter2_base.ndcg' title "SPECTER2-BASE", 'specter2_adapter.ndcg' title "SPECTER2-ADAP", 'specter2_base_cos.ndcg' title "SPECTER2-BASE-Cos", 'specter2_adapter_cos.ndcg' title "SPECTER2-ADAP-Cos"

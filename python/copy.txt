@@ -1,0 +1,77 @@
+from transformers import AutoTokenizer, AutoModel
+import torch
+import os
+import numpy as np
+
+class EmbeddingGenerator:
+    def __init__(self, args, device="cpu"):
+        # Load pre-trained model and tokenizer
+        base_model_path = os.path.join(args.models_folder, "base")
+        self.tokenizer = AutoTokenizer.from_pretrained(base_model_path)
+        self.model = AutoModel.from_pretrained(base_model_path)
+        self.device = device
+        self.args = args
+        self.model.to(device)
+
+        # Load adapters if necessary
+        if args.use_adapter:
+            proximity_adapter_path = os.path.join(args.models_folder, "proximity")
+            self.model.load_adapter(proximity_adapter_path, load_as="proximity", source='local', set_active=False)
+            adhoc_query_adapter_path = os.path.join(args.models_folder, "adhoc_query")
+            self.model.load_adapter(adhoc_query_adapter_path, load_as="adhoc_query", source='local', set_active=False)
+
+    def get_embedding(self, text, adapter_name=None):
+        # Tokenize input text
+        inputs = self.tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=512).to(self.device)
+        
+        # Activate the correct adapter if specified
+        if adapter_name:
+            self.model.set_active_adapters(adapter_name)
+
+        # Generate embedding
+        with torch.no_grad():
+            output = self.model(**inputs)
+        embeddings = output.last_hidden_state[:, 0, :]
+
+        return embeddings.cpu().numpy()
+
+    def save_embedding(self, embedding, file_path):
+        """Saves the embedding as a space-separated line in a text file."""
+        # Ensure directory exists
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        # Reshape the embedding to 1D
+        embedding = embedding.reshape(-1)
+        # Save using np.savetxt with format specifier for space separation
+        np.savetxt(file_path, [embedding], fmt='%f')
+
+    def embed_docs(self):
+        # Activate the proximity adapter for documents
+        adapter_name = "proximity" if self.args.use_adapter else None
+
+        # Load and embed each document
+        docs_folder = self.args.docs_folder
+        for doc_id in range(1, 1240):  # Assuming document IDs are from RN-00001 to RN-01239
+            doc_filename = f"RN-{doc_id:05}"
+            with open(os.path.join(docs_folder, doc_filename), 'r') as file:
+                text = file.read()
+                embedding = self.get_embedding(text, adapter_name)
+
+                # Save embedding
+                output_path = os.path.join(self.args.output_folder, "docs", doc_filename)
+                self.save_embedding(embedding, output_path)
+
+    def embed_queries(self):
+        # Activate the adhoc query adapter for queries
+        adapter_name = "adhoc_query" if self.args.use_adapter else None
+
+        # Load and embed each query
+        with open(self.args.queries_file, 'r') as file:
+            lines = file.readlines()
+            for i in range(0, len(lines), 3):  # Process every third line
+                query_id = f"Q{i//3 + 1:03}"
+                query_text = lines[i].strip()
+                embedding = self.get_embedding(query_text, adapter_name)
+
+                # Save embedding
+                output_path = os.path.join(self.args.output_folder, "queries", query_id)
+                self.save_embedding(embedding, output_path)

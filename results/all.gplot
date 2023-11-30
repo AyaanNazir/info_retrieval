@@ -1,0 +1,16 @@
+set xlabel "Recall"
+set ylabel "Precision"
+set title "PR"
+
+set terminal pngcairo enhanced font 'Verdana,10'
+set output 'all.png'
+set size 1.0, 1.0
+
+set style data linespoints
+set key top right
+
+set xrange [0:1]
+set yrange [0:1]
+
+plot 'vsr' title "VSR", 'specter2_base_cos' title "SPECTER2-BASE-Cos", 'hybrid05' title "Hybrid05", 'hybrid03' title "Hybrid03", 'hybrid07' title "Hybrid07", 'hybrid08' title "Hybrid08", 'hybrid09' title "Hybrid09"
+

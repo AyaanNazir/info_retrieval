@@ -16,7 +16,6 @@ public class Retrieval implements Comparable {
    * mean it is more relevant to the query
    */
   public double score;
-  public double prox;
 
   /**
    * Create a retrieval with these values
@@ -36,15 +35,9 @@ public class Retrieval implements Comparable {
    */
   public int compareTo(Object obj) {
     Retrieval retrieval = (Retrieval) obj;
-    // Calculate comparision based on both scenarios where proximity is used 
-    // and where its not used.
-    if (prox == 0 || retrieval.prox == 0) {
-      prox = 1;
-      retrieval.prox = 1;
-    }
-    if ((score / prox) == (retrieval.score / retrieval.prox))
+    if (score == retrieval.score)
       return 0;
-    else if (score / prox > retrieval.score / retrieval.prox)
+    else if (score > retrieval.score)
       return -1;
     else return 1;
   }

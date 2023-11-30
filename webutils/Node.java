@@ -17,9 +17,6 @@ public class Node {
    */
   String name;
 
-  String page;
-  boolean indexed;
-
   /**
    * Lists of incoming and outgoing edges.
    */

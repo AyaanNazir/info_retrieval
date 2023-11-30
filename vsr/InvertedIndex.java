@@ -29,8 +29,6 @@ public class InvertedIndex {
    */
   public Map<String, TokenInfo> tokenHash = null;
 
-  public Map<String, HashMapVector> allPositons = null;
-
   /**
    * A list of all indexed documents.  Elements are DocumentReference's.
    */
@@ -71,7 +69,6 @@ public class InvertedIndex {
     this.feedback = feedback;
     tokenHash = new HashMap<String, TokenInfo>();
     docRefs = new ArrayList<DocumentReference>();
-    allPositons = new HashMap<String, HashMapVector>();
     indexDocuments();
   }
 
@@ -84,7 +81,6 @@ public class InvertedIndex {
   public InvertedIndex(List<Example> examples) {
     tokenHash = new HashMap<String, TokenInfo>();
     docRefs = new ArrayList<DocumentReference>();
-    allPositons = new HashMap<String, HashMapVector>();
     indexDocuments(examples);
   }
 
@@ -224,14 +220,12 @@ public class InvertedIndex {
     for (Map.Entry<String, TokenInfo> entry : tokenHash.entrySet()) {
       String token = entry.getKey();
       // Print the token and its IDF factor
-      if (token.equals("radiation")) {
-        System.out.println(token + " (IDF=" + entry.getValue().idf + ") occurs in:");
-        // For each document referenced, print its name, occurrence count for this token, and
-        // document vector length (|D|).
-        for (TokenOccurrence occ : entry.getValue().occList) {
-          System.out.println("   " + occ.docRef.file.getName() + " " + occ.count +
-              " times; |D|=" + occ.docRef.length);
-        }
+      System.out.println(token + " (IDF=" + entry.getValue().idf + ") occurs in:");
+      // For each document referenced, print its name, occurrence count for this token, and
+      // document vector length (|D|).
+      for (TokenOccurrence occ : entry.getValue().occList) {
+        System.out.println("   " + occ.docRef.file.getName() + " " + occ.count +
+            " times; |D|=" + occ.docRef.length);
       }
     }
   }

@@ -1,0 +1,16 @@
+set xlabel "Recall"
+set ylabel "Precision"
+set title "PR"
+
+set terminal pngcairo enhanced font 'Verdana,10'
+set output 'all-deep.png'
+set size 1.0, 1.0
+
+set style data linespoints
+set key top right
+
+set xrange [0:1]
+set yrange [0:1]
+
+plot 'vsr' title "VSR", 'specter2_base' title "SPECTER2-BASE", 'specter2_adapter' title "SPECTER2-ADAP",'specter2_base_cos' title "SPECTER2-BASE-Cos", 'specter2_adapter_cos' title "SPECTER2-ADAP-Cos"
+

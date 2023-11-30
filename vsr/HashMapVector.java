@@ -20,7 +20,6 @@ public class HashMapVector {
    * The HashMap that stores the mapping of tokens to Weights
    */
   public Map<String, Weight> hashMap = new HashMap<String, Weight>();
-  public Map<String, List<Integer>> positions = new HashMap<String, List<Integer>>();
 
   /**
    * Returns the number of tokens in the vector.

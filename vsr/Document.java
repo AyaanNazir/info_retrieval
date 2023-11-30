@@ -174,16 +174,10 @@ public abstract class Document {
       return null;
     HashMapVector vector = new HashMapVector();
     // Process each token in the document and add it to the vector
-    int index = 0;
     while (hasMoreTokens()) {
       String token = nextToken();
-      if (!vector.positions.containsKey(token)) {
-        vector.positions.put(token, new ArrayList<Integer>());
-      }
-      vector.positions.get(token).add(index);
       vector.increment(token);
-      index++;
-    } 
+    }
     return vector;
   }
 
